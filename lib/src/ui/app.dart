@@ -6,6 +6,9 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('flutter todo app'),
+      ),
       body: Container(),
     );
   }
