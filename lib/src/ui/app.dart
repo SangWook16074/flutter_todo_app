@@ -47,6 +47,9 @@ class _AppState extends State<App> {
             .orderBy('createTime', descending: true)
             .snapshots(),
         builder: (context, snapshot) {
+          if (snapshot.data!.docs.isEmpty) {
+            return _dataNull();
+          }
           return (snapshot.connectionState == ConnectionState.waiting)
               ? _loading()
               : ListView.builder(
@@ -89,6 +92,12 @@ class _AppState extends State<App> {
   Widget _loading() {
     return const Center(
       child: CircularProgressIndicator.adaptive(),
+    );
+  }
+
+  Widget _dataNull() {
+    return const Center(
+      child: Text('할일이 없습니다.'),
     );
   }
 }
