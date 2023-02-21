@@ -10,6 +10,19 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
+  Future<void> _updateTodoIsDone(
+    bool isDone,
+    String id,
+  ) async {
+    await FirebaseFirestore.instance.collection('todo').doc(id).update({
+      'isDone': !isDone,
+    });
+  }
+
+  Future<void> _deleteTodo(String id) async {
+    await FirebaseFirestore.instance.collection('todo').doc(id).delete();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,27 +53,33 @@ class _AppState extends State<App> {
                   itemCount: snapshot.data!.docs.length,
                   itemBuilder: (BuildContext context, int index) {
                     var data = snapshot.data!.docs[index];
+                    var id = data.id;
                     var todo = data['todo'].toString();
                     var time = data['createTime'].toString();
                     var isDone = data['isDone'];
 
-                    return _todoList(todo, time, isDone);
+                    return _todoList(id, todo, time, isDone);
                   },
                 );
         });
   }
 
-  Widget _todoList(String todo, String time, bool isDone) {
+  Widget _todoList(String id, String todo, String time, bool isDone) {
     return ListTile(
       title: Text(todo),
       trailing: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(
-            Icons.favorite,
-            color: (!isDone) ? Colors.grey : Colors.red,
+          GestureDetector(
+            onTap: () => _updateTodoIsDone(isDone, id),
+            child: Icon(
+              Icons.favorite,
+              color: (isDone) ? Colors.grey : Colors.red,
+            ),
           ),
+          IconButton(
+              onPressed: () => _deleteTodo(id), icon: const Icon(Icons.delete))
         ],
       ),
       onTap: () {},
