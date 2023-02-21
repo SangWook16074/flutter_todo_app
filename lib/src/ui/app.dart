@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_todo_app/src/ui/pages/create_page.dart';
 
 class App extends StatefulWidget {
   const App({super.key});
@@ -16,7 +17,8 @@ class _AppState extends State<App> {
         title: const Text('flutter todo app'),
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {},
+        onPressed: () => Navigator.of(context)
+            .push(MaterialPageRoute(builder: (context) => const CreatePage())),
         icon: const Icon(Icons.add),
         label: const Text('추가'),
       ),
@@ -27,7 +29,10 @@ class _AppState extends State<App> {
 
   Widget _buildTodo() {
     return StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance.collection('todo').snapshots(),
+        stream: FirebaseFirestore.instance
+            .collection('todo')
+            .orderBy('createTime', descending: true)
+            .snapshots(),
         builder: (context, snapshot) {
           return (snapshot.connectionState == ConnectionState.waiting)
               ? _loading()
@@ -48,10 +53,17 @@ class _AppState extends State<App> {
   Widget _todoList(String todo, String time, bool isDone) {
     return ListTile(
       title: Text(todo),
-      trailing: Icon(
-        Icons.favorite,
-        color: (!isDone) ? Colors.grey : Colors.red,
+      trailing: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            Icons.favorite,
+            color: (!isDone) ? Colors.grey : Colors.red,
+          ),
+        ],
       ),
+      onTap: () {},
     );
   }
 
