@@ -26,7 +26,7 @@ class FirebaseDb {
     });
   }
 
-  Future<void> updateTodoIsDone(
+  static updateTodoIsDone(
     bool isDone,
     String id,
   ) async {
@@ -35,7 +35,7 @@ class FirebaseDb {
     });
   }
 
-  Future<void> deleteTodo(String id) async {
+  static deleteTodo(String id) async {
     await firebaseFirestore.collection('todo').doc(id).delete();
   }
 }
