@@ -1,6 +1,6 @@
 # flutter_todo_app
 
-A new Flutter project.
+파이어베이스를 이용한 todo앱입니다. getX와 firebase를 함께 사용하는 법을 익히기 위한 레포지토리입니다.
 
 ## Getting Started
 
