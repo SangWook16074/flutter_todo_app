@@ -41,7 +41,7 @@ class App extends GetView<TodoController> {
               onPressed: () => FirebaseDb.updateTodoIsDone(isDone, id),
               icon: Icon(
                 Icons.favorite,
-                color: (isDone) ? Colors.grey : Colors.red,
+                color: (!isDone) ? Colors.grey : Colors.red,
               )),
           IconButton(
               onPressed: () => FirebaseDb.deleteTodo(id),
