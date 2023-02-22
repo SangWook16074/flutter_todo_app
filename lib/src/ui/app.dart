@@ -1,8 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_todo_app/src/controller/todo_controller.dart';
 import 'package:flutter_todo_app/src/ui/pages/create_page.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:get/get.dart';
 
 class App extends GetView<TodoController> {
   const App({super.key});
@@ -15,8 +14,7 @@ class App extends GetView<TodoController> {
           title: const Text('flutter todo app'),
         ),
         floatingActionButton: FloatingActionButton.extended(
-          onPressed: () => Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => const CreatePage())),
+          onPressed: () => Get.to(() => const CreatePage()),
           icon: const Icon(Icons.add),
           label: const Text('추가'),
         ),

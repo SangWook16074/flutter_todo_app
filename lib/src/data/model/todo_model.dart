@@ -8,7 +8,6 @@ class TodoModel {
 
   TodoModel({
     required this.todo,
-    required this.createTime,
     required this.isDone,
   });
 
