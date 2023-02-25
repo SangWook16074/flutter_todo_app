@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_todo_app/src/constants/firebase_const.dart';
 import 'package:flutter_todo_app/src/data/model/todo_model.dart';
 
-class FirebaseDb {
+class TodoRepository {
   static createTodos(TodoModel todoModel) async {
     await firebaseFirestore.collection('todo').doc().set({
       'todo': todoModel.todo,

@@ -3,7 +3,7 @@ import 'package:flutter_todo_app/src/controller/todo_controller.dart';
 import 'package:flutter_todo_app/src/data/model/todo_model.dart';
 import 'package:get/get.dart';
 
-import '../../data/provider/firebase_db.dart';
+import '../../data/repository/todo_repository.dart';
 
 class CreatePage extends GetView<TodoController> {
   const CreatePage({super.key});
@@ -60,7 +60,7 @@ class CreatePage extends GetView<TodoController> {
           onPressed: () {
             final todoModel =
                 TodoModel(todo: controller.controller.text, isDone: false);
-            FirebaseDb.createTodos(todoModel);
+            TodoRepository.createTodos(todoModel);
             Get.back();
           },
           child: const Text('추가하기'));

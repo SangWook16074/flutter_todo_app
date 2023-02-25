@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_todo_app/src/data/model/todo_model.dart';
-import 'package:flutter_todo_app/src/data/provider/firebase_db.dart';
+import 'package:flutter_todo_app/src/data/repository/todo_repository.dart';
 import 'package:get/get.dart';
 
 class TodoController extends GetxController {
@@ -10,7 +10,7 @@ class TodoController extends GetxController {
 
   @override
   void onReady() {
-    todoList.bindStream(FirebaseDb.todoStream());
+    todoList.bindStream(TodoRepository.todoStream());
     super.onReady();
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_todo_app/src/controller/todo_controller.dart';
-import 'package:flutter_todo_app/src/data/provider/firebase_db.dart';
+import 'package:flutter_todo_app/src/data/repository/todo_repository.dart';
 import 'package:flutter_todo_app/src/ui/pages/create_page.dart';
 import 'package:get/get.dart';
 
@@ -38,13 +38,13 @@ class App extends GetView<TodoController> {
         mainAxisSize: MainAxisSize.min,
         children: [
           IconButton(
-              onPressed: () => FirebaseDb.updateTodoIsDone(isDone, id),
+              onPressed: () => TodoRepository.updateTodoIsDone(isDone, id),
               icon: Icon(
                 Icons.favorite,
                 color: (!isDone) ? Colors.grey : Colors.red,
               )),
           IconButton(
-              onPressed: () => FirebaseDb.deleteTodo(id),
+              onPressed: () => TodoRepository.deleteTodo(id),
               icon: const Icon(Icons.delete)),
         ],
       ),
