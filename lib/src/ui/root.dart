@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_todo_app/src/ui/pages/login_page.dart';
+import 'package:flutter_todo_app/src/ui/pages/sign_in.dart';
 import 'package:get/get.dart';
 
 import '../constants/firebase_const.dart';

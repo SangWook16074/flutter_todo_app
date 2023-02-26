@@ -4,6 +4,8 @@ import 'package:flutter_todo_app/src/data/repository/todo_repository.dart';
 import 'package:flutter_todo_app/src/ui/pages/create_page.dart';
 import 'package:get/get.dart';
 
+import '../constants/firebase_const.dart';
+
 class App extends GetView<TodoController> {
   const App({super.key});
 
@@ -13,6 +15,13 @@ class App extends GetView<TodoController> {
       () => Scaffold(
         appBar: AppBar(
           title: const Text('flutter todo app'),
+          actions: [
+            IconButton(
+                onPressed: () {
+                  auth.signOut();
+                },
+                icon: const Icon(Icons.logout))
+          ],
         ),
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () => Get.to(() => const CreatePage()),

@@ -1,7 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class Login extends StatelessWidget {
-  const Login({super.key});
+import '../../constants/firebase_const.dart';
+
+class SignUp extends StatefulWidget {
+  const SignUp({super.key});
+
+  @override
+  State<SignUp> createState() => _SignUpState();
+}
+
+class _SignUpState extends State<SignUp> {
+  final email = TextEditingController();
+  final password = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -9,7 +20,7 @@ class Login extends StatelessWidget {
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('로그인 페이지'),
+          title: const Text('가입 페이지'),
         ),
         body: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -45,6 +56,8 @@ class Login extends StatelessWidget {
             SizedBox(
               width: 250,
               child: TextField(
+                controller: email,
+                keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
                     border: InputBorder.none,
                     fillColor: Colors.white,
@@ -73,6 +86,8 @@ class Login extends StatelessWidget {
             SizedBox(
               width: 250,
               child: TextField(
+                controller: password,
+                obscureText: true,
                 decoration: InputDecoration(
                     border: InputBorder.none,
                     fillColor: Colors.white,
@@ -100,9 +115,13 @@ class Login extends StatelessWidget {
       width: 300,
       height: 50,
       child: ElevatedButton.icon(
-          onPressed: () {},
-          icon: const Icon(Icons.login),
-          label: const Text('로그인')),
+          onPressed: () {
+            auth.createUserWithEmailAndPassword(
+                email: email.text.trim(), password: password.text.trim());
+            Get.back();
+          },
+          icon: const Icon(Icons.add),
+          label: const Text('회원가입')),
     );
   }
 
