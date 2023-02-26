@@ -2,7 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_todo_app/firebase_options.dart';
 import 'package:flutter_todo_app/src/binding/init_binding.dart';
-import 'package:flutter_todo_app/src/ui/app.dart';
+import 'package:flutter_todo_app/src/ui/root.dart';
 import 'package:get/get.dart';
 
 void main() async {
@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const App(),
+      home: const Root(),
       initialBinding: InitBinding(),
     );
   }
