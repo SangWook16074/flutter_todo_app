@@ -16,7 +16,6 @@ class Root extends GetView<AuthController> {
         builder: (context, user) {
           if (user.hasData) {
             return FutureBuilder(
-              future: controller.login(user.data!.uid),
               builder: (context, snapshot) {
                 return const App();
               },

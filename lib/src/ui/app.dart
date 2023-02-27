@@ -20,7 +20,12 @@ class App extends GetView<TodoController> {
                 onPressed: () {
                   auth.signOut();
                 },
-                icon: const Icon(Icons.logout))
+                icon: const Icon(Icons.logout)),
+            IconButton(
+                onPressed: () {
+                  print(auth.currentUser!.uid);
+                },
+                icon: const Icon(Icons.account_balance))
           ],
         ),
         floatingActionButton: FloatingActionButton.extended(

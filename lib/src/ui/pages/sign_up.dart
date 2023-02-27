@@ -1,18 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_todo_app/src/controller/auth_controller.dart';
 import 'package:get/get.dart';
 
-import '../../constants/firebase_const.dart';
-
-class SignUp extends StatefulWidget {
+class SignUp extends GetView<AuthController> {
   const SignUp({super.key});
-
-  @override
-  State<SignUp> createState() => _SignUpState();
-}
-
-class _SignUpState extends State<SignUp> {
-  final email = TextEditingController();
-  final password = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +47,7 @@ class _SignUpState extends State<SignUp> {
             SizedBox(
               width: 250,
               child: TextField(
-                controller: email,
+                controller: controller.email,
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
                     border: InputBorder.none,
@@ -86,7 +77,7 @@ class _SignUpState extends State<SignUp> {
             SizedBox(
               width: 250,
               child: TextField(
-                controller: password,
+                controller: controller.password,
                 obscureText: true,
                 decoration: InputDecoration(
                     border: InputBorder.none,
@@ -116,8 +107,8 @@ class _SignUpState extends State<SignUp> {
       height: 50,
       child: ElevatedButton.icon(
           onPressed: () {
-            auth.createUserWithEmailAndPassword(
-                email: email.text.trim(), password: password.text.trim());
+            controller.resister(
+                controller.email.text.trim(), controller.password.text.trim());
             Get.back();
           },
           icon: const Icon(Icons.add),
