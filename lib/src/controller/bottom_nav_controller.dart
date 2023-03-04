@@ -18,10 +18,10 @@ class BottomNavController extends GetxController {
     var page = PageName.values[value];
     switch (page) {
       case PageName.TODO:
-        break;
       case PageName.USER:
-        break;
+        index(value);
     }
-    index(value);
   }
+
+  
 }

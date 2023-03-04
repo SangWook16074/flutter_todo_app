@@ -30,24 +30,56 @@ class AuthController extends GetxController {
     }
   }
 
-  void resister(String email, String password) async {
+  void resister() async {
     try {
+      if (email.text == '') {
+        showErrorSnackBar('이메일을 입력하세요');
+        return;
+      }
+
+      if (password.text == '') {
+        showErrorSnackBar('비밀번호를 입력하세요');
+        return;
+      }
       final newUser = await auth.createUserWithEmailAndPassword(
-          email: email, password: password);
+          email: email.text.trim(), password: password.text.trim());
       await firebaseFirestore.collection('user').doc(newUser.user!.uid).set({
         'email': email,
       });
-    } on FirebaseAuthException catch (e) {
-      print(e.message!);
-      showErrorSnackBar(e);
+    } on FirebaseAuthException {
+      showErrorSnackBar('잠시 후에 다시 시도해주세요.');
     } catch (e) {
       print(e.toString());
     }
+
+    email.text = '';
+    password.text = '';
   }
 
-  // login(String email, String password) async {
 
-  // }
+  void showErrorSnackBar(String message) {
+    Get.snackbar('Error', message,
+        snackPosition: SnackPosition.BOTTOM, colorText: Colors.white);
+  }
+
+  void login() async {
+    try {
+      if (email.text == '') {
+        showErrorSnackBar('이메일을 입력하세요');
+        return;
+      }
+
+      if (password.text == '') {
+        showErrorSnackBar('비밀번호를 입력하세요');
+      }
+      await auth.signInWithEmailAndPassword(
+          email: email.text.trim(), password: password.text.trim());
+    } on FirebaseAuthException {
+      showErrorSnackBar('잠시 후에 다시 시도해주세요.');
+    }
+    email.text = '';
+    password.text = '';
+  }
 
   void signOut() {
     try {
@@ -55,20 +87,5 @@ class AuthController extends GetxController {
     } catch (e) {
       print(e.toString());
     }
-  }
-
-  void showErrorSnackBar(FirebaseAuthException e) {
-    Get.snackbar('Error', e.message!, snackPosition: SnackPosition.BOTTOM);
-  }
-
-  void login() async {
-    try {
-      await auth.signInWithEmailAndPassword(
-          email: email.text.trim(), password: password.text.trim());
-    } on FirebaseAuthException catch (e) {
-      showErrorSnackBar(e);
-    }
-    email.text = '';
-    password.text = '';
   }
 }

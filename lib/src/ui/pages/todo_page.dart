@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_todo_app/src/components/glass_container.dart';
+import 'package:flutter_todo_app/src/components/status_icon_button.dart';
 import 'package:flutter_todo_app/src/controller/todo_controller.dart';
+import 'package:flutter_todo_app/src/data/model/todo_model.dart';
 import 'package:get/get.dart';
 
-import '../../constants/firebase_const.dart';
-import '../../data/repository/todo_repository.dart';
-import 'create_page.dart';
+import '../../components/font_text.dart';
+import '../../controller/auth_controller.dart';
 
 class Todo extends GetView<TodoController> {
   const Todo({super.key});
@@ -12,56 +14,62 @@ class Todo extends GetView<TodoController> {
   @override
   Widget build(BuildContext context) {
     return Obx(
-      () => Scaffold(
-        appBar: AppBar(
-          title: const Text('flutter todo app'),
-          actions: [
-            IconButton(
-                onPressed: () {
-                  auth.signOut();
-                },
-                icon: const Icon(Icons.logout)),
-            IconButton(
-                onPressed: () {
-                  print(auth.currentUser!.uid);
-                },
-                icon: const Icon(Icons.account_balance))
+      () => Padding(
+        padding: const EdgeInsets.all(40.0),
+        child: Column(
+          children: [
+            _header(),
+            _todos(),
           ],
         ),
-        floatingActionButton: FloatingActionButton.extended(
-          onPressed: () => Get.to(() => const CreatePage()),
-          icon: const Icon(Icons.add),
-          label: const Text('추가'),
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        body: ListView.builder(
-            itemCount: controller.todos.length,
-            itemBuilder: (context, index) {
-              final todoModel = controller.todos[index];
-              return _buildTodoItem(
-                  todoModel.todo, todoModel.isDone, todoModel.documentID!);
-            }),
       ),
     );
   }
 
-  Widget _buildTodoItem(String todo, bool isDone, String id) {
-    return ListTile(
-      title: Text(todo),
-      trailing: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          IconButton(
-              onPressed: () => TodoRepository.updateTodoIsDone(isDone, id),
-              icon: Icon(
-                Icons.favorite,
-                color: (!isDone) ? Colors.grey : Colors.red,
-              )),
-          IconButton(
-              onPressed: () => TodoRepository.deleteTodo(id),
-              icon: const Icon(Icons.delete)),
-        ],
-      ),
+  Widget _buildTodoItem(TodoModel todoModel) {
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: GlassContainer(
+          padding: 20,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                todoModel.todo,
+                style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 30,
+                    fontWeight: FontWeight.w400),
+              ),
+              StatusIconButton(
+                onPressed: () => controller.updateTodoIsDone(
+                    todoModel.isDone, todoModel.documentID!),
+                status: (todoModel.isDone) ? Status.DONE : Status.NOTDONE,
+              ),
+            ],
+          )),
     );
+  }
+
+  Widget _header() {
+    return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+      const FontText(data: 'Today\'s ToDo List', fontSize: 25),
+      IconButton(
+          onPressed: Get.find<AuthController>().signOut,
+          icon: const Icon(
+            Icons.logout,
+            color: Colors.white,
+          ))
+    ]);
+  }
+
+  Widget _todos() {
+    return Expanded(
+        child: ListView.builder(
+            itemCount: controller.todos.length,
+            itemBuilder: (context, index) {
+              final todoModel = controller.todos[index];
+              return _buildTodoItem(todoModel);
+            }));
   }
 }

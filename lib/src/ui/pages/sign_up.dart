@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_todo_app/src/components/custom_text_field.dart';
+import 'package:flutter_todo_app/src/components/font_text.dart';
+import 'package:flutter_todo_app/src/constants/image_path.dart';
 import 'package:flutter_todo_app/src/controller/auth_controller.dart';
 import 'package:get/get.dart';
+
+import '../../components/glass_container.dart';
 
 class SignUp extends GetView<AuthController> {
   const SignUp({super.key});
@@ -10,25 +15,27 @@ class SignUp extends GetView<AuthController> {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text('가입 페이지'),
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              _buildAppTitle(),
-              const SizedBox(
-                height: 40,
+        body: Container(
+          decoration: BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage(ImagePath.background), fit: BoxFit.cover)),
+          child: Center(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(8.0),
+              child: GlassContainer(
+                padding: 30,
+                child: Column(
+                  children: [
+                    _buildBody(),
+                    const SizedBox(
+                      height: 40,
+                    ),
+                    _buildLoginBtn(),
+                    _backToSignIn(),
+                  ],
+                ),
               ),
-              _buildBody(),
-              const SizedBox(
-                height: 40,
-              ),
-              _buildLoginBtn(),
-            ],
+            ),
           ),
         ),
       ),
@@ -36,97 +43,70 @@ class SignUp extends GetView<AuthController> {
   }
 
   Widget _buildBody() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text('Account : '),
-            SizedBox(
-              width: 250,
-              child: TextField(
-                controller: controller.email,
-                keyboardType: TextInputType.emailAddress,
-                decoration: InputDecoration(
-                    border: InputBorder.none,
-                    fillColor: Colors.white,
-                    filled: true,
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(24.0),
-                      borderSide:
-                          const BorderSide(color: Colors.blue, width: 2.0),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(24.0),
-                      borderSide:
-                          const BorderSide(color: Colors.black, width: 2.0),
-                    )),
-              ),
+    return GlassContainer(
+      padding: 30,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          const FontText(data: 'Sign Up', fontSize: 40),
+          CustomTextField(
+            controller: controller.email,
+            hintText: 'email',
+            prefixIcon: const Icon(
+              Icons.account_circle_outlined,
+              color: Colors.white,
             ),
-          ],
-        ),
-        const SizedBox(
-          height: 30,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text('Password : '),
-            SizedBox(
-              width: 250,
-              child: TextField(
-                controller: controller.password,
-                obscureText: true,
-                decoration: InputDecoration(
-                    border: InputBorder.none,
-                    fillColor: Colors.white,
-                    filled: true,
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(24.0),
-                      borderSide:
-                          const BorderSide(color: Colors.blue, width: 2.0),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(24.0),
-                      borderSide:
-                          const BorderSide(color: Colors.black, width: 2.0),
-                    )),
-              ),
-            ),
-          ],
-        ),
-      ],
+            keyboardType: TextInputType.emailAddress,
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          CustomTextField(
+              controller: controller.password,
+              hintText: 'password',
+              obscureText: true,
+              prefixIcon: const Icon(
+                Icons.lock,
+                color: Colors.white,
+              )),
+        ],
+      ),
     );
   }
 
   Widget _buildLoginBtn() {
-    return SizedBox(
-      width: 300,
-      height: 50,
-      child: ElevatedButton.icon(
-          onPressed: () {
-            controller.resister(
-                controller.email.text.trim(), controller.password.text.trim());
-            Get.back();
-          },
-          icon: const Icon(Icons.add),
-          label: const Text('회원가입')),
+    return GlassContainer(
+      padding: 0,
+      child: OutlinedButton.icon(
+        onPressed: controller.resister,
+        icon: const Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
+        label: const Text(
+          '회원가입',
+          style: TextStyle(color: Colors.white),
+        ),
+        style: OutlinedButton.styleFrom(fixedSize: const Size(250, 50)),
+      ),
     );
   }
 
-  Widget _buildAppTitle() {
-    return Column(
-      children: const [
-        Text(
-          'Hello !',
-          style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+  Widget _backToSignIn() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const Text(
+          '이미 가입하셨나요?',
+          style: TextStyle(color: Colors.white),
         ),
-        Text(
-          'this is Todo App',
-          style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
-        ),
+        TextButton(
+            onPressed: () => Get.back(),
+            child: const Text(
+              'Sign In',
+              style:
+                  TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
+            )),
       ],
     );
   }

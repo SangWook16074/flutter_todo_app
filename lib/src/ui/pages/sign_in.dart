@@ -51,31 +51,27 @@ class Login extends GetView<AuthController> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           const FontText(data: 'Sign In', fontSize: 40),
-          SizedBox(
-              width: 250,
-              child: CustomTextField(
-                controller: controller.email,
-                hintText: 'Account',
-                keyboardType: TextInputType.emailAddress,
-                prefixIcon: const Icon(
-                  Icons.account_circle_outlined,
-                  color: Colors.white,
-                ),
-              )),
+          CustomTextField(
+            controller: controller.email,
+            hintText: 'email',
+            keyboardType: TextInputType.emailAddress,
+            prefixIcon: const Icon(
+              Icons.account_circle_outlined,
+              color: Colors.white,
+            ),
+          ),
           const SizedBox(
             height: 10,
           ),
-          SizedBox(
-              width: 250,
-              child: CustomTextField(
-                controller: controller.password,
-                hintText: 'Password',
-                obscureText: true,
-                prefixIcon: const Icon(
-                  Icons.lock,
-                  color: Colors.white,
-                ),
-              )),
+          CustomTextField(
+            controller: controller.password,
+            hintText: 'Password',
+            obscureText: true,
+            prefixIcon: const Icon(
+              Icons.lock,
+              color: Colors.white,
+            ),
+          ),
         ],
       ),
     );
@@ -87,11 +83,9 @@ class Login extends GetView<AuthController> {
       child: OutlinedButton.icon(
         onPressed: controller.login,
         icon: const Icon(Icons.login),
-        label: const Text('Login'),
+        label: const Text('로그인'),
         style: OutlinedButton.styleFrom(
-            foregroundColor: Colors.white,
-            backgroundColor: null,
-            fixedSize: const Size(250, 50)),
+            foregroundColor: Colors.white, fixedSize: const Size(250, 50)),
       ),
     );
   }
