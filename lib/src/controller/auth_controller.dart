@@ -45,13 +45,9 @@ class AuthController extends GetxController {
     }
   }
 
-  void login(String email, String password) async {
-    try {
-      await auth.signInWithEmailAndPassword(email: email, password: password);
-    } on FirebaseAuthException catch (e) {
-      showErrorSnackBar(e);
-    }
-  }
+  // login(String email, String password) async {
+
+  // }
 
   void signOut() {
     try {
@@ -63,5 +59,16 @@ class AuthController extends GetxController {
 
   void showErrorSnackBar(FirebaseAuthException e) {
     Get.snackbar('Error', e.message!, snackPosition: SnackPosition.BOTTOM);
+  }
+
+  void login() async {
+    try {
+      await auth.signInWithEmailAndPassword(
+          email: email.text.trim(), password: password.text.trim());
+    } on FirebaseAuthException catch (e) {
+      showErrorSnackBar(e);
+    }
+    email.text = '';
+    password.text = '';
   }
 }
