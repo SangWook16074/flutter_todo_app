@@ -1,11 +1,13 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_todo_app/firebase_options.dart';
 import 'package:flutter_todo_app/src/binding/init_binding.dart';
-import 'package:flutter_todo_app/src/ui/app.dart';
+import 'package:flutter_todo_app/src/ui/pages/onboarding.dart';
 import 'package:get/get.dart';
 
 void main() async {
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -20,11 +22,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-        backgroundColor: Colors.black,
-      ),
-      home: const App(),
+          backgroundColor: const Color.fromARGB(255, 0, 12, 49),
+          appBarTheme: const AppBarTheme(
+            backgroundColor: Color.fromARGB(255, 0, 12, 49),
+          )),
+      home: const OnBoard(),
       initialBinding: InitBinding(),
     );
   }
